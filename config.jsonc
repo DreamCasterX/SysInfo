@@ -1,0 +1,55 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "modules": [
+    "title",
+    "separator",
+    {                                  
+      "type": "command",
+      "text": "cat /sys/devices/virtual/dmi/id/product_name | xargs -I{} echo {} '('$(cat /sys/class/dmi/id/board_name)')'",
+      "key": "Host"
+    },
+    {
+      "type": "command",
+      "text": "awk 'FNR == 2 {print}' /etc/buildstamp",
+      "key": "Image"
+    },
+    {
+      "type": "command",
+      "text": "cat /etc/os-release | grep PRETTY_NAME | xargs -I{} echo {} | cut -d'=' -f2",
+      "key": "OS"
+    },
+    {
+      "type": "command",
+      "text": "uname -r",
+      "key": "Kernel"
+    },
+    {
+      "type": "command",
+      "text": "cat /sys/class/dmi/id/bios_version",
+      "key": "Bios"
+    },
+    "display",
+    {
+      "type": "command",
+      "text": "echo $XDG_SESSION_TYPE",
+      "key": "WM"
+    },
+    "cpu",
+    {
+      "type": "command",
+      "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
+      "key": "GPU"
+    },
+    {
+      "type": "command",
+      "text": "nvidia-smi --query-gpu=driver_version --format=csv | awk 'FNR == 2 {print}'",
+      "key": "Nvidia driver"
+    },
+    "memory",
+    "disk",
+    "localip",
+    "battery",
+    "poweradapter",
+    "break",
+  ]
+}
