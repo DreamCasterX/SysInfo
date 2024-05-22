@@ -8,7 +8,7 @@ __version__="1.0"
 
 CheckNetwork() {
 	wget -q --spider www.google.com > /dev/null
-	[[ $? != 0 ]] && echo -e "\e[31mNo Internet connection! Please check and retry\n\e[0m" && exit || :
+	[[ $? != 0 ]] && echo -e "\e[31mNo Internet connection! Please check and retry.\n\e[0m" && exit || :
 }
 
 UpdateScript() {
@@ -36,9 +36,9 @@ UpdateScript() {
 			sleep 3
 			sudo chmod 755 config.jsonc
 			sudo chmod 755 SysInfo.sh
-			echo -e "\e[32mDone!\e[0m\nPlease run SysInfo.sh again\n\n" ; exit 1
+			echo -e "\e[32mDone!\e[0m\nPlease run SysInfo.sh again.\n\n" ; exit 1
 		else
-			echo -e "\n\e[31mUpdate failed\e[0m" ; exit 1
+			echo -e "\n\e[31mUpdate failed.\e[0m" ; exit 1
 		fi
 	else
 		echo
@@ -77,7 +77,7 @@ Install_fastfetch() {
 	sudo dpkg -i .fastfetch.deb > /dev/null && rm -f .fastfetch.deb > /dev/null && fastfetch --gen-config-force > /dev/null
 	mv config.jsonc ~/.config/fastfetch/	
 	[[ ! `grep 'Start SysInfo' ~/.bashrc` ]] && echo -e '\n# Start SysInfo\nfastfetch --logo none\n\n' >> ~/.bashrc
-	echo -e "\e[32mDone!\e[0m\nOpen a new Terminal to see the changes\n" 
+	echo -e "\e[32mDone!\e[0m\nOpen a new Terminal to see the changes.\n" 
 	source ~/.bashrc
 }
 
