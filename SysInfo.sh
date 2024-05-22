@@ -8,7 +8,7 @@ __version__="1.0"
 
 CheckNetwork() {
 	wget -q --spider www.google.com > /dev/null
-	[[ $? != 0 ]] && echo -e "❌ No Internet connection! Please check and retry\n" && exit || :
+	[[ $? != 0 ]] && echo -e "\e[31mNo Internet connection! Please check and retry\n\e[0m" && exit || :
 }
 
 UpdateScript() {
@@ -21,7 +21,12 @@ UpdateScript() {
 	then
 		echo -e "⭐️ New version found!\n\nVersion: $new_version\nRelease Note:\n$release_note"
 		sleep 2
-		echo -e "\nDownloading the update..."
+		echo
+		echo "╭───────────────────────────────────────╮"
+		echo "│     Downloading the latest update     |"
+		echo "│                                       │"
+		echo "╰───────────────────────────────────────╯"
+		echo
 		pushd "$PWD" > /dev/null 2>&1
 		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".SysInfo.tar.gz" "${tarball_url}"
 		if [[ -e ".SysInfo.tar.gz" ]]; then
@@ -31,29 +36,36 @@ UpdateScript() {
 			sleep 3
 			sudo chmod 755 config.jsonc
 			sudo chmod 755 SysInfo.sh
-			echo -e "Update done! Please run SysInfo.sh again\n\n" ; exit 1
+			echo -e "\e[32mDone!\e[0m\nPlease run SysInfo.sh again\n\n" ; exit 1
 		else
-			echo -e "\n❌ Update failed" ; exit 1
+			echo -e "\n\e[31mUpdate failed\e[0m" ; exit 1
 		fi
 	else
+		echo
+		echo "╭───────────────────────────────────────╮"
+		echo "│        Downloading config file        |"
+		echo "│                                       │"
+		echo "╰───────────────────────────────────────╯"
+		echo
 		pushd "$PWD" > /dev/null 2>&1
 		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".SysInfo.tar.gz" "${tarball_url}"
 		if [[ -e ".SysInfo.tar.gz" ]]; then
-			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/config.json > /dev/null 2>&1
+			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/config.jsonc > /dev/null 2>&1
 			rm -f .SysInfo.tar.gz
 			popd > /dev/null 2>&1
 			sleep 3
 			sudo chmod 755 config.jsonc
+			echo -e "\e[32mDone!\e[0m"
 		else
-			echo -e "\n❌ Download jsonc file failed" ; exit 1
+			echo -e "\n\e[31mDownload config file failed.\e[0m" ; exit 1
 		fi			
 	fi
 }
 
-Install_sysinfo() {	
+Install_fastfetch() {	
 	echo
 	echo "╭───────────────────────────────────────╮"
-	echo "│        Installing SysInfo             |"
+	echo "│        Installing fastfetch           |"
 	echo "│                                       │"
 	echo "╰───────────────────────────────────────╯"
 	echo
@@ -62,12 +74,12 @@ Install_sysinfo() {
 	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
 	deb_url="https://github.com/fastfetch-cli/fastfetch/releases/download/$new_version/fastfetch-linux-amd64.deb"
 	curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".fastfetch.deb" "${deb_url}"
-	sudo dpkg -i .fastfetch.deb > /dev/null && sudo rm -f .fastfetch.deb > /dev/null
+	sudo dpkg -i .fastfetch.deb > /dev/null && rm -f .fastfetch.deb > /dev/null && fastfetch --gen-config-force > /dev/null
 	mv config.jsonc ~/.config/fastfetch/	
 	[[ ! `grep 'Start SysInfo' ~/.bashrc` ]] && echo -e '\n# Start SysInfo\nfastfetch --logo none\n\n' >> ~/.bashrc
-	echo -e "✅ Open a new Terminal to apply the changes" 
+	echo -e "\e[32mDone!\e[0m\nOpen a new Terminal to see the changes\n" 
 	source ~/.bashrc
 }
 
 
-CheckNetwork && UpdateScript && Install_sysinfo
+CheckNetwork && UpdateScript && Install_fastfetch
