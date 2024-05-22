@@ -1,2 +1,2 @@
 # SysInfo
-Customized fastfetch for HP Linux QA team
+Customized fastfetch installer for HP Linux QA team
