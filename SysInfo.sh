@@ -30,7 +30,7 @@ UpdateScript() {
 		pushd "$PWD" > /dev/null 2>&1
 		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".SysInfo.tar.gz" "${tarball_url}"
 		if [[ -e ".SysInfo.tar.gz" ]]; then
-			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/SysInfo.sh SysInfo-$new_version/config.json > /dev/null 2>&1
+			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/SysInfo.sh SysInfo-$new_version/config.jsonc > /dev/null 2>&1
 			rm -f .SysInfo.tar.gz
 			popd > /dev/null 2>&1
 			sleep 3
