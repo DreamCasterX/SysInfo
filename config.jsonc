@@ -35,6 +35,10 @@
       "type": "gpu",
       "format": "{1} {2} - {3}",
     },
+	{
+      "type": "opengl",
+      "format": "{2}",
+    },
     {
       "type": "command",
       "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
@@ -45,8 +49,17 @@
       "text": "nvidia-smi --query-gpu=driver_version --format=csv | awk 'FNR == 2 {print}'",
       "key": "Nvidia driver"
     },
+	{
+      "type": "sound",
+      "format": "{2}",
+	  "key": "Audio"
+    },
     "memory",
-    "disk",
+    {
+      "type": "physicaldisk",
+      "format": "{2} {3} {4} [{1}]",
+	  "key": "Disk"
+    },
     "localip",
     "battery",
     "poweradapter",
