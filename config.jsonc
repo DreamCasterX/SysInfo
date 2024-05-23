@@ -1,5 +1,4 @@
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
   "modules": [
     "title",
     "separator",
@@ -14,31 +13,32 @@
       "key": "Image"
     },
     {
-      "type": "command",
-      "text": "cat /etc/os-release | grep PRETTY_NAME | xargs -I{} echo {} | cut -d'=' -f2",
-      "key": "OS"
+      "type": "os",
+      "format": "{3}",
     },
     {
-      "type": "command",
-      "text": "uname -r",
-      "key": "Kernel"
+      "type": "kernel",
+      "format": "{2}",
     },
     {
-      "type": "command",
-      "text": "cat /sys/class/dmi/id/bios_version",
-      "key": "Bios"
+      "type": "bios",
+      "format": "{4}",
+	  "key": "Bios"
     },
     "display",
     {
-      "type": "command",
-      "text": "echo $XDG_SESSION_TYPE",
-      "key": "WM"
+      "type": "wm",
+      "format": "{3}",
     },
     "cpu",
+	{
+      "type": "gpu",
+      "format": "{1} {2} - {3}",
+    },
     {
       "type": "command",
       "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
-      "key": "GPU"
+      "key": "Nvidia model"
     },
     {
       "type": "command",
