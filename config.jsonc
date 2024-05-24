@@ -50,14 +50,15 @@
     },
     "cpu",
     "gpu",
+    //{
+    //  "type": "command",
+    //  "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
+    //  "keyColor": "yellow",
+    //  "key": "┌─Nvidia model"
+    //},
+    
     {
       "type": "command",
-      "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
-      "keyColor": "yellow",
-      "key": "┌─Nvidia model"
-    },
-	{
-	  "type": "command",
       "text": "modinfo nvidia | grep -w version | awk '{print $2}'",
       "keyColor": "yellow",
       "key": "└─Nvidia driver"
