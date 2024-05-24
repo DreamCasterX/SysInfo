@@ -1,7 +1,11 @@
 {
   "modules": [
-    "title",
-    "separator",
+    //"title",
+    //"break",
+    {
+      "type": "custom",
+      "format": "──────────────────── \u001b[1m\u001b[36mSoftware Information\u001b[0m ────────────────────"
+    },
     {                                  
       "type": "command",
       "text": "cat /sys/devices/virtual/dmi/id/product_name | xargs -I{} echo {} '('$(cat /sys/class/dmi/id/board_name)')'",
@@ -23,46 +27,65 @@
     {
       "type": "bios",
       "format": "{4}",
-	  "key": "Bios"
+      "key": "Bios"
     },
-    "display",
     {
       "type": "wm",
       "format": "{3}",
     },
-    "cpu",
-	{
-      "type": "gpu",
-      "format": "{1} {2} - {3}",
-    },
-	{
+    {
       "type": "opengl",
       "format": "{2}",
     },
+    "localip",
+    //{
+    //  "type": "gpu",
+    //  "format": "{1} {2} - {3}",
+    //},
+
+    {
+      "type": "custom",
+      "format": "──────────────────── \u001b[1m\u001b[36mHardware Information\u001b[0m ────────────────────"
+    },
+    "cpu",
+    "gpu", 
     {
       "type": "command",
       "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
-      "key": "Nvidia model"
+      "keyColor": "yellow",
+      "key": "┌─Nvidia model"
     },
     {
       "type": "command",
       "text": "nvidia-smi --query-gpu=driver_version --format=csv | awk 'FNR == 2 {print}'",
-      "key": "Nvidia driver"
-    },
-	{
+      "keyColor": "yellow",
+      "key": "└─Nvidia driver"
+    },  
+    "display",
+    {
       "type": "sound",
       "format": "{2}",
-	  "key": "Audio"
+      "key": "Audio"
     },
-    "memory",
+    {
+      "type": "memory",
+      "format": "{2}",
+    },
     {
       "type": "physicaldisk",
       "format": "{2} {3} {4} [{1}]",
-	  "key": "Disk"
+      "key": "Disk"
     },
-    "localip",
     "battery",
     "poweradapter",
-    "break",
+    {
+      "type": "custom",
+      "format": "──────────────────────────────────────────────────────────────"
+    },
+    {
+      "type": "colors",
+      "paddingLeft": 2,
+      "symbol": "circle"
+    }
   ]
 }
