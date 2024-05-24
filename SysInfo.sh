@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # CREATOR: mike.lu@hp.com
-# CHANGE DATE: 05/23/2024
-__version__="1.1"
+# CHANGE DATE: 05/24/2024
+__version__="1.2"
 
 
 
@@ -30,11 +30,10 @@ UpdateScript() {
 		pushd "$PWD" > /dev/null 2>&1
 		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".SysInfo.tar.gz" "${tarball_url}"
 		if [[ -e ".SysInfo.tar.gz" ]]; then
-			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/SysInfo.sh SysInfo-$new_version/config.jsonc > /dev/null 2>&1
+			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/SysInfo.sh > /dev/null 2>&1
 			rm -f .SysInfo.tar.gz
 			popd > /dev/null 2>&1
 			sleep 3
-			sudo chmod 755 config.jsonc
 			sudo chmod 755 SysInfo.sh
 			echo -e "\e[32mDone!\e[0m\nPlease run SysInfo.sh again.\n\n" ; exit 1
 		else
