@@ -1,7 +1,7 @@
 {
   "modules": [
     //"title",
-    //"break",
+    //"separator",
     {
       "type": "custom",
       "format": "──────────────────── \u001b[1m\u001b[36mSoftware Information\u001b[0m ────────────────────"
@@ -20,6 +20,13 @@
       "type": "os",
       "format": "{3}",
     },
+    
+    //{
+    //  "type": "command",
+    //  "text": "cat /etc/os-release | grep PRETTY_NAME | xargs -I{} echo {} | cut -d'=' -f2",
+    //  "key": "OS"
+    //},
+    
     {
       "type": "kernel",
       "format": "{2}",
@@ -29,27 +36,41 @@
       "format": "{4}",
       "key": "Bios"
     },
+    
+    //{
+    //  "type": "command",
+    //  "text": "cat /sys/class/dmi/id/bios_version",
+    //  "key": "Bios"
+    //},
+    
     {
       "type": "wm",
       "format": "{3}",
     },
+    
+    //{
+    //  "type": "command",
+    //  "text": "echo $XDG_SESSION_TYPE",
+    //  "key": "WM"
+    //},
+    
     {
       "type": "opengl",
       "format": "{2}",
     },
     "localip",
-	
-    //{
-    //  "type": "gpu",
-    //  "format": "{1} {2} - {3}",
-    //},
-
     {
       "type": "custom",
       "format": "──────────────────── \u001b[1m\u001b[36mHardware Information\u001b[0m ────────────────────"
     },
     "cpu",
     "gpu",
+    
+    //{
+    //  "type": "gpu",
+    //  "format": "{1} {2} - {3}",
+    //},
+    
     //{
     //  "type": "command",
     //  "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
