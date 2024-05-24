@@ -38,6 +38,7 @@
       "format": "{2}",
     },
     "localip",
+	
     //{
     //  "type": "gpu",
     //  "format": "{1} {2} - {3}",
@@ -48,19 +49,27 @@
       "format": "──────────────────── \u001b[1m\u001b[36mHardware Information\u001b[0m ────────────────────"
     },
     "cpu",
-    "gpu", 
+    "gpu",
     {
       "type": "command",
       "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
       "keyColor": "yellow",
       "key": "┌─Nvidia model"
     },
-    {
-      "type": "command",
-      "text": "nvidia-smi --query-gpu=driver_version --format=csv | awk 'FNR == 2 {print}'",
+	{
+	  "type": "command",
+      "text": "modinfo nvidia | grep -w version | awk '{print $2}'",
       "keyColor": "yellow",
       "key": "└─Nvidia driver"
-    },  
+    }, 	
+	
+    //{
+    //  "type": "command",
+    //  "text": "nvidia-smi --query-gpu=driver_version --format=csv | awk 'FNR == 2 {print}'",
+    //  "keyColor": "yellow",
+    //  "key": "└─Nvidia driver"
+    //},  
+	
     "display",
     {
       "type": "sound",
