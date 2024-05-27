@@ -5,14 +5,12 @@
 __version__="1.2"
 
 
-
 CheckNetwork() {
 	wget -q --spider www.google.com > /dev/null
 	[[ $? != 0 ]] && echo -e "\e[31mNo Internet connection! Please check and retry.\n\e[0m" && exit || :
 }
 
 UpdateScript() {
-	[[ ! -f /usr/bin/curl ]] && sudo apt update && sudo apt install -y curl
 	release_url=https://api.github.com/repos/DreamCasterX/SysInfo/releases/latest
 	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
 	release_note=$(curl -s "${release_url}" | grep '"body":' | awk -F\" '{print $4}')
@@ -23,7 +21,7 @@ UpdateScript() {
 		sleep 2
 		echo
 		echo "╭───────────────────────────────────────╮"
-		echo "│     Downloading the latest update     |"
+		echo "│     Downloading the latest update     │"
 		echo "│                                       │"
 		echo "╰───────────────────────────────────────╯"
 		echo
@@ -42,7 +40,7 @@ UpdateScript() {
 	else
 		echo
 		echo "╭───────────────────────────────────────╮"
-		echo "│        Downloading config file        |"
+		echo "│        Downloading config file        │"
 		echo "│                                       │"
 		echo "╰───────────────────────────────────────╯"
 		echo
@@ -61,15 +59,15 @@ UpdateScript() {
 	fi
 }
 
-Install_fastfetch() {	
+Install_fastfetch_deb() {	
 	echo
 	echo "╭───────────────────────────────────────╮"
-	echo "│        Installing fastfetch           |"
+	echo "│        Installing fastfetch           │"
 	echo "│                                       │"
 	echo "╰───────────────────────────────────────╯"
 	echo
+	[[ ! -f /usr/bin/curl ]] && sudo apt update && sudo apt install curl -y
 	sudo update-pciids -q  # Update GPU ids
-	[[ ! -f /usr/bin/curl ]] && sudo apt update && sudo apt install -y curl
 	release_url=https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest
 	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
 	deb_url="https://github.com/fastfetch-cli/fastfetch/releases/download/$new_version/fastfetch-linux-amd64.deb"
@@ -81,5 +79,38 @@ Install_fastfetch() {
 	source ~/.bashrc
 }
 
+Install_fastfetch_rpm() {
+	echo
+	echo "╭───────────────────────────────────────╮"
+	echo "│        Installing fastfetch           │"
+	echo "│                                       │"
+	echo "╰───────────────────────────────────────╯"
+	echo
+	sudo update-pciids -q  # Update GPU ids
+	release_url=https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest
+	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
+	rpm_url="https://github.com/fastfetch-cli/fastfetch/releases/download/$new_version/fastfetch-linux-amd64.rpm"
+	curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".fastfetch.rpm" "${rpm_url}"
+	sudo rpm -i .fastfetch.rpm > /dev/null && rm -f .fastfetch.rpm > /dev/null && fastfetch --gen-config-force > /dev/null
+	mv config.jsonc ~/.config/fastfetch/	
+	[[ ! `grep 'Start SysInfo' ~/.bashrc` ]] && echo -e '\n# Start SysInfo\nfastfetch --logo none\n\n' >> ~/.bashrc
+	echo -e "\e[32mDone!\e[0m\n\n" 
+	source ~/.bashrc
+}
 
-CheckNetwork && UpdateScript && Install_fastfetch
+
+[[ -f /usr/bin/apt ]] && PKG=apt || PKG=dnf
+case $PKG in
+    "apt")
+	CheckNetwork 
+	UpdateScript
+	Install_fastfetch_deb
+    ;;
+    "dnf")
+	CheckNetwork
+	UpdateScript
+	Install_fastfetch_rpm
+    ;;
+esac
+
+
