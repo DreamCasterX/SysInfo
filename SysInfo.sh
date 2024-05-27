@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # CREATOR: mike.lu@hp.com
-# CHANGE DATE: 05/24/2024
+# CHANGE DATE: 05/27/2024
 __version__="1.2"
 
 
@@ -68,6 +68,7 @@ Install_fastfetch() {
 	echo "│                                       │"
 	echo "╰───────────────────────────────────────╯"
 	echo
+	sudo update-pciids -q  # Update GPU ids
 	[[ ! -f /usr/bin/curl ]] && sudo apt update && sudo apt install -y curl
 	release_url=https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest
 	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
