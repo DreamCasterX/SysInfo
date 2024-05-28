@@ -36,29 +36,21 @@
       "format": "{4}",
       "key": "Bios"
     },
-    
-    //{
-    //  "type": "command",
-    //  "text": "cat /sys/class/dmi/id/bios_version",
-    //  "key": "Bios"
-    //},
-    
     {
       "type": "wm",
       "format": "{3}",
     },
-    
-    //{
-    //  "type": "command",
-    //  "text": "echo $XDG_SESSION_TYPE",
-    //  "key": "WM"
-    //},
-    
     {
       "type": "opengl",
       "format": "{2}",
     },
     "localip",
+    {
+      "type": "command",
+      "text": "cat /proc/sys/kernel/tainted",
+      "keyColor": "yellow",
+      "key": "Kernel tainted"
+    }, 
     {
       "type": "custom",
       "format": "──────────────────── \u001b[1m\u001b[36mHardware Information\u001b[0m ────────────────────"
@@ -107,6 +99,10 @@
       "format": "{2} {3} {4} [{1}]",
       "key": "Disk"
     },
+    {
+      "type": "swap",
+      "format": "{2}",
+    },
     "battery",
     "poweradapter",
     {
@@ -117,6 +113,6 @@
       "type": "colors",
       "paddingLeft": 2,
       "symbol": "circle"
-    }
+    },
   ]
 }
