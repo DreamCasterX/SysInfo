@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # CREATOR: mike.lu@hp.com
-# CHANGE DATE: 05/27/2024
+# CHANGE DATE: 06/07/2024
 __version__="1.2"
 
 
@@ -88,7 +88,8 @@ Install_fastfetch() {
 	fi
 }
 
-
+# RESTRICT USER ACCOUNT
+[[ $EUID == 0 ]] && echo -e "⚠️ Please run as non-root user.\n" && exit
 CheckNetwork 
 [[ ! -f /usr/bin/curl ]] && sudo apt update && sudo apt install curl -y  # Curl is preloaded on RHEL
 UpdateScript
