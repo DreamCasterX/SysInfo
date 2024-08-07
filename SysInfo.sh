@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # CREATOR: mike.lu@hp.com
-# CHANGE DATE: 06/07/2024
-__version__="1.2"
+# CHANGE DATE: 08/07/2024
+__version__="1.3"
 
 
 CheckNetwork() {
@@ -12,8 +12,8 @@ CheckNetwork() {
 
 UpdateScript() {
 	release_url=https://api.github.com/repos/DreamCasterX/SysInfo/releases/latest
-	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
-	release_note=$(curl -s "${release_url}" | grep '"body":' | awk -F\" '{print $4}')
+	new_version=$(wget -qO- "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
+	release_note=$(wget -qO- "${release_url}" | grep '"body":' | awk -F\" '{print $4}')
 	tarball_url="https://github.com/DreamCasterX/SysInfo/archive/refs/tags/${new_version}.tar.gz"
 	if [[ $new_version != $__version__ ]]; then
 		echo -e "⭐️ New version found!\n\nVersion: $new_version\nRelease Note:\n$release_note"
@@ -25,7 +25,7 @@ UpdateScript() {
 		echo "╰───────────────────────────────────────╯"
 		echo
 		pushd "$PWD" > /dev/null 2>&1
-		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".SysInfo.tar.gz" "${tarball_url}"
+		wget --quiet --no-check-certificate --tries=3 --waitretry=2 --output-document=".SysInfo.tar.gz" "${tarball_url}"
 		if [[ -e ".SysInfo.tar.gz" ]]; then
 			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/SysInfo.sh > /dev/null 2>&1
 			rm -f .SysInfo.tar.gz
@@ -44,7 +44,7 @@ UpdateScript() {
 		echo "╰───────────────────────────────────────╯"
 		echo
 		pushd "$PWD" > /dev/null 2>&1
-		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".SysInfo.tar.gz" "${tarball_url}"
+		wget --quiet --no-check-certificate --tries=3 --waitretry=2 --output-document=".SysInfo.tar.gz" "${tarball_url}"
 		if [[ -e ".SysInfo.tar.gz" ]]; then
 			tar -xf .SysInfo.tar.gz -C "$PWD" --strip-components 1 SysInfo-$new_version/config.jsonc > /dev/null 2>&1
 			rm -f .SysInfo.tar.gz
@@ -66,20 +66,20 @@ Install_fastfetch() {
 	echo "╰───────────────────────────────────────╯"
 	echo
 	release_url=https://api.github.com/repos/fastfetch-cli/fastfetch/releases/latest
-	new_version=$(curl -s "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
+	new_version=$(wget -qO- "${release_url}" | grep '"tag_name":' | awk -F\" '{print $4}')
 	deb_url="https://github.com/fastfetch-cli/fastfetch/releases/download/$new_version/fastfetch-linux-amd64.deb"
 	rpm_url="https://github.com/fastfetch-cli/fastfetch/releases/download/$new_version/fastfetch-linux-amd64.rpm"
 	sudo update-pciids -q  # Update GPU ids
 	[[ -f /usr/bin/apt ]] && PKG=apt || PKG=dnf
 	if [[ $PKG == 'apt' ]]; then 
-		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".fastfetch.deb" "${deb_url}"
+		wget --quiet --no-check-certificate --tries=3 --waitretry=2 --output-document=".fastfetch.deb" "${deb_url}"
 		sudo dpkg -i .fastfetch.deb > /dev/null && rm -f .fastfetch.deb > /dev/null && fastfetch --gen-config-force > /dev/null
 		mv config.jsonc ~/.config/fastfetch/	
 		[[ ! `grep 'Start SysInfo' ~/.bashrc` ]] && echo -e '\n# Start SysInfo\nfastfetch --logo none\n\n' >> ~/.bashrc
 		echo -e "\e[32mDone!\e[0m\nOpen a new Terminal to see the changes.\n" 
 		source ~/.bashrc
 	elif [[ $PKG == 'dnf' ]]; then 
-		curl --silent --insecure --fail --retry-connrefused --retry 3 --retry-delay 2 --location --output ".fastfetch.rpm" "${rpm_url}"
+		wget --quiet --no-check-certificate --tries=3 --waitretry=2 --output-document=".fastfetch.rpm" "${rpm_url}"
 		sudo rpm -i .fastfetch.rpm > /dev/null && rm -f .fastfetch.rpm > /dev/null && fastfetch --gen-config-force > /dev/null
 		mv config.jsonc ~/.config/fastfetch/	
 		[[ ! `grep 'Start SysInfo' ~/.bashrc` ]] && echo -e '\n# Start SysInfo\nfastfetch --logo none\n\n' >> ~/.bashrc
@@ -91,7 +91,6 @@ Install_fastfetch() {
 # RESTRICT USER ACCOUNT
 [[ $EUID == 0 ]] && echo -e "⚠️ Please run as non-root user.\n" && exit
 CheckNetwork 
-[[ ! -f /usr/bin/curl ]] && sudo apt update && sudo apt install curl -y  # Curl is preloaded on RHEL
 UpdateScript
 Install_fastfetch
 
