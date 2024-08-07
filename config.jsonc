@@ -106,6 +106,12 @@
     "battery",
     "poweradapter",
     {
+      "type": "command",
+      "text": "mmcli -m any | grep 'firmware revision' | awk '{print $4}'",
+      "keyColor": "red"
+      "key": "WWAN FW"
+    }, 	
+    {
       "type": "custom",
       "format": "──────────────────────────────────────────────────────────────"
     },
