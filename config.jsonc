@@ -112,6 +112,12 @@
       "key": "WWAN FW",
     }, 	
     {
+      "type": "command",
+      "text": "mmcli -V | grep mmcli | cut -d ' ' -f2",
+      "keyColor": "yellow",
+      "key": "└─Modem Manager"
+    }, 
+    {
       "type": "custom",
       "format": "──────────────────────────────────────────────────────────────"
     },
