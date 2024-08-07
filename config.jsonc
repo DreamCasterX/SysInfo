@@ -1,7 +1,5 @@
 {
   "modules": [
-    //"title",
-    //"separator",
     {
       "type": "custom",
       "format": "──────────────────── \u001b[1m\u001b[36mSoftware Information\u001b[0m ────────────────────"
@@ -49,6 +47,7 @@
       "type": "opengl",
       "format": "{2}",
     },
+    "wifi",
     "localip",
     {
       "type": "command",
@@ -63,17 +62,6 @@
     "cpu",
     "gpu",
     
-    //{
-    //  "type": "gpu",
-    //  "format": "{1} {2} - {3}",
-    //},
-    
-    //{
-    //  "type": "command",
-    //  "text": "nvidia-smi --query-gpu=name --format=csv | awk 'FNR == 2 {print}'",
-    //  "keyColor": "yellow",
-    //  "key": "┌─Nvidia model"
-    //},
     
     {
       "type": "command",
@@ -90,10 +78,17 @@
     //},  
 	
     "display",
+    
+    //{
+    //  "type": "brightness",
+    //  "keyColor": "yellow",
+    //  "key": "└─Brightness",
+    //}, 
+    
     {
       "type": "sound",
-      "format": "{2}",
-      "key": "Audio"
+      //"format": "{2}",
+      "key": "Audio",
     },
     {
       "type": "memory",
